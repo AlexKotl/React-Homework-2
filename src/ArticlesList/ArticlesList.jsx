@@ -2,6 +2,8 @@ import React from 'react';
 import Article from 'src/Article/Article.jsx';
 import AppStore from 'src/App/AppStore.js';
 import {AppActions} from 'src/App/AppActions.js';
+import Input from 'src/Form/Input.jsx';
+import InputRow from 'src/Form/InputRow.jsx';
 import ixhr from 'src/i/ixhr';
 
 /**
@@ -65,13 +67,27 @@ class ArticlesList extends React.Component {
         });
     }
 
+    changeInput (name, value) {
+        this.setState({
+            [`${name}`]: value
+        });
+    }
+
     render () {
         var {articles} = AppStore,
-            {indexOpenArticle} = this.state;
+            {indexOpenArticle, filter} = this.state;
+
+        if (filter) {
+            articles = articles.filter(article => article.title.match(filter));
+        }
 
         return (
             <div className='articles'>
                 <div>Articles: {articles && articles.length || 'loading...'}</div>
+                <InputRow>
+                    Filter:
+                    <Input name='filter' onChange={::this.changeInput} />
+                </InputRow>
                 {articles && articles.map(
                     article => <Article
                                     key={article.id}

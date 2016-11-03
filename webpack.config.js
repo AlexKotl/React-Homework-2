@@ -1,5 +1,5 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
     devtool: 'source-map',
@@ -17,7 +17,7 @@ module.exports = {
         alias: {
             src: 'src'
         },
-        extensions: ['', 'jsx', '.js']
+        extensions: ['', '.jsx', '.js']
     },
     devServer: {
         host: 'localhost',

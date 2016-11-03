@@ -1,5 +1,5 @@
 import React from 'react';
-import {withRouter} from 'react-router'
+import {withRouter, Link} from 'react-router';
 import ixhr from 'src/i/ixhr';
 
 /**
@@ -14,12 +14,10 @@ class Article extends React.Component {
     }
 
     goToArticlePage () {
-        console.log('props', this.props);
         var {article, router} = this.props;
 
-        router.push({
-            pathname: `http://localhost:9090/article/${article.id}`
-        });
+        console.log('props', `http://localhost:9090/article/${article.id}`, this.props);
+        router.push(`/article/${article.id}`);
     }
 
     renderComment (comment_id) {
@@ -38,6 +36,9 @@ class Article extends React.Component {
                 <h2 onClick={::this.goToArticlePage}>{article.title}</h2>
                 <div>
                     {article.text}
+                </div>
+                <div>
+                    <Link to={`/article/${article.id}`}>More</Link>
                 </div>
                 <div className='comments'>
                     <div className='comments-bar' onClick={toggleComments}>
