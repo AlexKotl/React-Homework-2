@@ -1,5 +1,5 @@
 import React from 'react';
-import Article from 'blocks/Article/Article.jsx';
+import Article from 'src/Article/Article.jsx';
 
 /**
  * Articles List

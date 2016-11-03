@@ -1,1 +1,1 @@
-# react-starter-kit
+#react-webpack-boilerplate
