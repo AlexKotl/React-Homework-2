@@ -1,59 +1,41 @@
 import React from 'react';
+import {withRouter} from 'react-router'
+import ixhr from 'src/i/ixhr';
 
 /**
  * Article
  * @param {Object}      article
  * @param {Boolean}     showComments
- * @param {Function}    toggleComments={this.toggleComments.bind(this, article.id)}
+ * @param {Function}    toggleComments
  */
 class Article extends React.Component {
     static defaultProps = {
         showComments: false
     }
 
-    state = {
-        isShow: false,
-        showArticle: ::this.showArticle
-    }
+    goToArticlePage () {
+        console.log('props', this.props);
+        var {article, router} = this.props;
 
-    showArticle () {
-        var {article} = this.refs,
-            {top} = article.getBoundingClientRect(),
-            isShow = false;
-
-        if (article && top < window.innerHeight && top > 100) {
-            isShow = true;
-        }
-
-        this.setState({
-            isShow: isShow
+        router.push({
+            pathname: `http://localhost:9090/article/${article.id}`
         });
     }
 
-    componentDidMount () {
-        window.addEventListener('scroll', this.state.showArticle);
-    }
-
-    componentWillUnmount () {
-        window.removeEventListener('scroll', this.state.showArticle);
-    }
-
-    renderComment (comment) {
+    renderComment (comment_id) {
         return (
-            <div key={comment.id} className='comment'>
-                <div>{`${comment.name.first} ${comment.name.last}`}</div>
-                {comment.text}
+            <div key={comment_id} className='comment'>
+                {comment_id}
             </div>
         );
     }
 
     render () {
-        var {article, toggleComments, showComments} = this.props,
-            {isShow} = this.state;
+        var {article, toggleComments, showComments} = this.props;
 
         return (
-            <div ref='article' className='article' style={{opacity: isShow ? 1 : 0}}>
-                <h2>{article.title}</h2>
+            <div className='article'>
+                <h2 onClick={::this.goToArticlePage}>{article.title}</h2>
                 <div>
                     {article.text}
                 </div>
@@ -63,7 +45,7 @@ class Article extends React.Component {
                     </div>
                     <div className='comments-list' style={{display: showComments ? 'block' : 'none'}}>
                         {article.comments && article.comments.map(
-                            comment => this.renderComment(comment)
+                            comment_id => this.renderComment(comment_id)
                         )}
                     </div>
                 </div>
@@ -72,4 +54,4 @@ class Article extends React.Component {
     }
 }
 
-export default Article;
+export default withRouter(Article);
