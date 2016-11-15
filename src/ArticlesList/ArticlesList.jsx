@@ -12,7 +12,8 @@ import ixhr from 'src/i/ixhr';
 class ArticlesList extends React.Component {
 
     state = {
-        indexOpenArticle: null
+        indexOpenArticle: null,
+        currentComments: []
     }
 
     audience = {
@@ -52,34 +53,7 @@ class ArticlesList extends React.Component {
         console.log('ArticleList unsubscribe to event putArticles');
         AppStore.unbind('putArticles', this.audience.putArticles);
     }
-
-    getCommentsSuccess(status, comment) {
-        console.log('Got comment', comment, status);
-    }
-
-    toggleComments (articleId, comments) {
-        var {indexOpenArticle} = this.state;
-
-        if (indexOpenArticle === articleId) {
-            indexOpenArticle = null;
-        } else {
-            indexOpenArticle = articleId;
-        }
-
-        this.setState({
-            indexOpenArticle: indexOpenArticle
-        });
-
-        // load comments from API
-        for (var commentId of comments) {
-            ixhr.send({
-                    method: 'GET',
-                    url: 'http://localhost:9090/api/comment/' + commentId
-                },
-                ::this.getCommentsSuccess, alert);
-        }
-
-    }
+    
 
     changeInput (name, value) {
         this.setState({
@@ -95,6 +69,8 @@ class ArticlesList extends React.Component {
             articles = articles.filter(article => article.title.match(filter));
         }
 
+        //const test = {d1: {d: 1}, d2: {d: 2}};
+
         return (
             <div className='articles'>
                 <div>Articles: {articles && articles.length || 'loading...'}</div>
@@ -107,7 +83,6 @@ class ArticlesList extends React.Component {
                                     key={article.id}
                                     article={article}
                                     showComments={indexOpenArticle === article.id}
-                                    toggleComments={this.toggleComments.bind(this, article.id, article.comments)}
                                     />)}
             </div>
         );
