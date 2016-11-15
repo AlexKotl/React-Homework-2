@@ -53,7 +53,11 @@ class ArticlesList extends React.Component {
         AppStore.unbind('putArticles', this.audience.putArticles);
     }
 
-    toggleComments (articleId) {
+    getCommentsSuccess(status, comment) {
+        console.log('Got comment', comment, status);
+    }
+
+    toggleComments (articleId, comments) {
         var {indexOpenArticle} = this.state;
 
         if (indexOpenArticle === articleId) {
@@ -67,11 +71,14 @@ class ArticlesList extends React.Component {
         });
 
         // load comments from API
-        // ixhr.send({
-        //     method: 'GET',
-        //     url: 'http://localhost:9090/api/article'
-        // },
-        // ::this.getCommentsSuccess, alert);
+        for (var commentId of comments) {
+            ixhr.send({
+                    method: 'GET',
+                    url: 'http://localhost:9090/api/comment/' + commentId
+                },
+                ::this.getCommentsSuccess, alert);
+        }
+
     }
 
     changeInput (name, value) {
@@ -100,7 +107,7 @@ class ArticlesList extends React.Component {
                                     key={article.id}
                                     article={article}
                                     showComments={indexOpenArticle === article.id}
-                                    toggleComments={this.toggleComments.bind(this, article.id)}
+                                    toggleComments={this.toggleComments.bind(this, article.id, article.comments)}
                                     />)}
             </div>
         );

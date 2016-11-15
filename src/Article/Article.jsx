@@ -1,5 +1,6 @@
 import React from 'react';
 import {withRouter, Link} from 'react-router';
+import Comment from '../Comment/Comment'
 import ixhr from 'src/i/ixhr';
 
 /**
@@ -22,9 +23,7 @@ class Article extends React.Component {
 
     renderComment (comment_id) {
         return (
-            <div key={comment_id} className='comment'>
-                {comment_id}
-            </div>
+            <Comment commentId={comment_id}/>
         );
     }
 
