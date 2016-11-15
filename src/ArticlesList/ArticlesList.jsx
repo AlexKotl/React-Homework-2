@@ -65,6 +65,13 @@ class ArticlesList extends React.Component {
         this.setState({
             indexOpenArticle: indexOpenArticle
         });
+
+        // load comments from API
+        // ixhr.send({
+        //     method: 'GET',
+        //     url: 'http://localhost:9090/api/article'
+        // },
+        // ::this.getCommentsSuccess, alert);
     }
 
     changeInput (name, value) {

@@ -39,6 +39,18 @@ router.post('/article', function (req, res, next) {
     res.json(article)
 });
 
+router.get('/comment/:id', function (req, res, next) {
+    var comment = mocks.comments.filter(function (comment) {
+        return comment.id == req.params.id
+    })[0];
+
+    if (comment) {
+        return res.json(comment);
+    }
+
+    res.status(404).json({error: "not found"});
+});
+
 router.get('/comment', function (req, res, next) {
     var aid = req.query.article;
 
