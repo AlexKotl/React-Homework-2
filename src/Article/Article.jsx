@@ -56,6 +56,36 @@ class Article extends React.Component {
         router.push(`/article/${article.id}`);
     }
 
+    updateCommentForm(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+
+    putComment() {
+        console.log({
+            name: this.state.commentName,
+            text: this.state.commentText,
+            article: this.props.article.id
+        });
+
+        ixhr.send({
+            method: 'POST',
+            url: 'http://localhost:9090/api/comment',
+            body: {
+                name: this.state.commentName,
+                text: this.state.commentText,
+                article: this.props.article.id
+            }
+        },
+            ::this.putCommentSuccess, console.log)
+    }
+
+    putCommentSuccess() {
+        alert('Your comment was added');
+    }
+
+
     render () {
         var {article, toggleComments, showComments} = this.props;
 
@@ -76,6 +106,12 @@ class Article extends React.Component {
                         {this.state.comments.length > 0 && this.state.comments.map(
                             comment => <Comment key={comment.id} comment={comment}/>
                         )}
+
+                        <div class="comments-form">
+                            <input name="commentName" type="text" placeholder="Your name" onChange={::this.updateCommentForm} /> <br/>
+                            <textarea name="commentText" placeholder="Enter your comment here..." onChange={::this.updateCommentForm} /> <br/>
+                            <button onClick={::this.putComment}>Add comment</button>
+                        </div>
                     </div>
                 </div>
             </div>
