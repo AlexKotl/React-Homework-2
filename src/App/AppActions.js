@@ -19,6 +19,14 @@ var AppActions = {
             eventName: 'add-comment',
             data: comment
         });
+    },
+    
+    changeFilter: function(filter) {
+        console.log('Dispatched changeFilter');
+        iDispatcher.dispatch({
+            eventName: 'change-filter',
+            data: filter
+        });
     }
 };
 

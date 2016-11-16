@@ -17,7 +17,8 @@ class ArticlesList extends React.Component {
     }
 
     audience = {
-        putArticles: ::this.putArticles
+        putArticles: ::this.putArticles,
+        changeFilter: ::this.changeFilter
     }
 
     getArticles () {
@@ -46,30 +47,33 @@ class ArticlesList extends React.Component {
     componentDidMount () {
         console.log('ArticleList subscribe to event putArticles');
         AppStore.bind('putArticles', this.audience.putArticles);
+        AppStore.bind('changeFilter', this.audience.changeFilter);
         this.getArticles();
     }
 
     componentWillUnmount () {
         console.log('ArticleList unsubscribe to event putArticles');
         AppStore.unbind('putArticles', this.audience.putArticles);
+        AppStore.unbind('changeFilter', this.audience.changeFilter);
     }
-    
+
+    changeFilter() {
+        console.log('Filter changed and render');
+        this.forceUpdate();
+    }
 
     changeInput (name, value) {
-        this.setState({
-            [`${name}`]: value
-        });
+        AppActions.changeFilter(value);
     }
 
     render () {
         var {articles} = AppStore,
-            {indexOpenArticle, filter} = this.state;
+            {indexOpenArticle} = this.state,
+            filter = AppStore.currentFilter;
 
         if (filter) {
             articles = articles.filter(article => article.title.match(filter));
         }
-
-        //const test = {d1: {d: 1}, d2: {d: 2}};
 
         return (
             <div className='articles'>

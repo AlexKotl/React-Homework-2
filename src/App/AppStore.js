@@ -14,6 +14,10 @@ AppActions.iDispatcher.register(function (payload) {
             AppStore.addComment = payload.data;
             AppStore.trigger('addComment');
             break;
+        case 'change-filter':
+            AppStore.currentFilter = payload.data;
+            AppStore.trigger('changeFilter');
+            break;
     }
 
     return true;
