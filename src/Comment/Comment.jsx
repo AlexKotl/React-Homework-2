@@ -4,10 +4,13 @@ require('./Comment.css');
 export default class Comment extends React.Component {
 
     render() {
-        const {text, id, name} = this.props.comment;
+        let {text, id, name} = this.props.comment;
+
+        if (name === undefined) name = 'Anonymous';
+
         return (
             <div className="comment">
-                <b>{name.first} {name.last || name}:</b>
+                <b>{name.first || ''} {name.last || name}:</b>
                 <p>{text}</p>
             </div>
         )

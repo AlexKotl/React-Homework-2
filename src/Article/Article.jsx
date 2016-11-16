@@ -66,11 +66,10 @@ class Article extends React.Component {
     }
 
     putComment() {
-        console.log({
-            name: this.state.commentName,
-            text: this.state.commentText,
-            article: this.props.article.id
-        });
+        if (!this.state.commentText || this.state.commentText.length == 0) {
+            alert('Enter comment text');
+            return;
+        }
 
         ixhr.send({
             method: 'POST',
