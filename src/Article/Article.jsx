@@ -84,7 +84,10 @@ class Article extends React.Component {
             ::this.putCommentSuccess, console.log)
     }
 
-    putCommentSuccess() {
+    putCommentSuccess(code, comment) {
+        // add new comment ID
+        this.props.article.comments.push([comment.id]);
+
         // force reload comments
         this.setState({
             comments: []
