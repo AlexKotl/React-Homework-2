@@ -39,6 +39,10 @@ class Article extends React.Component {
 
         if (showComments || this.state.comments.length > 0) return;
 
+        this.getComment();
+    }
+
+    getComment() {
         for (var commentId of this.props.article.comments) {
             var params = {
                 method: 'GET',
@@ -46,7 +50,6 @@ class Article extends React.Component {
             };
             ixhr.send(params, ::this.getCommentSuccess, ::this.getCommentError)
         }
-
     }
 
     goToArticlePage () {
@@ -82,6 +85,12 @@ class Article extends React.Component {
     }
 
     putCommentSuccess() {
+        // force reload comments
+        this.setState({
+            comments: []
+        });
+        this.getComment();
+
         alert('Your comment was added');
     }
 
