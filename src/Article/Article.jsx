@@ -37,7 +37,7 @@ class Article extends React.Component {
             showComments: !this.state.showComments
         })
 
-        if (showComments) return;
+        if (showComments || this.state.comments.length > 0) return;
 
         for (var commentId of this.props.article.comments) {
             var params = {
