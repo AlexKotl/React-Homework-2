@@ -118,7 +118,7 @@ class Article extends React.Component {
                             comment => <Comment key={comment.id} comment={comment}/>
                         )}
 
-                        <div class="comments-form">
+                        <div className="comments-form">
                             <input name="commentName" type="text" placeholder="Your name" onChange={::this.updateCommentForm} /> <br/>
                             <textarea name="commentText" placeholder="Enter your comment here..." onChange={::this.updateCommentForm} /> <br/>
                             <button onClick={::this.putComment}>Add comment</button>
