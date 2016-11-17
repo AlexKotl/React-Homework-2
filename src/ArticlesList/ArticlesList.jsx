@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router';
 import Article from 'src/Article/Article.jsx';
 import AppStore from 'src/App/AppStore.js';
 import {AppActions} from 'src/App/AppActions.js';
@@ -75,6 +76,8 @@ class ArticlesList extends React.Component {
             articles = articles.filter(article => article.title.match(filter));
         }
 
+        var n = 0, {page} = this.props.params || 1, articlesPerPage = 2; // used for limiting articles per page
+
         return (
             <div className='articles'>
                 <div>Articles: {articles && articles.length || 'loading...'}</div>
@@ -83,11 +86,30 @@ class ArticlesList extends React.Component {
                     <Input name='filter' onChange={::this.changeInput} />
                 </InputRow>
                 {articles && articles.map(
-                    article => <Article
+                    article => {
+                        n++;
+
+                        // filter articles only for current page
+                        if (n > page * articlesPerPage || n <= (page - 1) * articlesPerPage) {
+                            console.log('skipping article')
+                        }
+                        else {
+                            return (
+                                <Article
                                     key={article.id}
                                     article={article}
                                     showComments={indexOpenArticle === article.id}
-                                    />)}
+                                />
+                            )
+                        }
+                    }
+                )}
+
+                <div className="pagination">
+                    {page - 1 >0 ? <Link to={`/articles/${page - 1}`}>&laquo;&laquo;</Link> : ''}
+                    {page}
+                    {n-1 > page * articlesPerPage ? <Link to={`/articles/${parseFloat(page) + 1}`}>&raquo;&raquo;</Link> : ''}
+                </div>
             </div>
         );
     }

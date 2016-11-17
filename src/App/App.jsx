@@ -9,7 +9,9 @@ import ArticlePage from 'src/Article/ArticlePage.jsx';
 render (
     <Router history={browserHistory}>
         <Route path='/' component={Page}/>
-        <Route path='articles' component={ArticlesList}/>
+        <Route path='articles' component={ArticlesList}>
+            <Route path=':page' component={ArticlesList}/>
+        </Route>
         <Route path='article' component={Page}>
             <Route path=':id' component={ArticlePage}/>
             <IndexRedirect to='/articles'/>
