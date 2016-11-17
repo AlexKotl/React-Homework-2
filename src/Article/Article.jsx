@@ -18,7 +18,7 @@ class Article extends React.Component {
 
     state = {
         showComments: false,
-        comments: []
+        //comments: []
     }
 
     // audience = {
@@ -26,9 +26,9 @@ class Article extends React.Component {
     // }
 
     getCommentSuccess(status, comment) {
-        this.setState({
-            comments: this.state.comments.concat([comment])
-        })
+        AppActions.addCommentStore(comment);
+
+        //console.log(AppStore.comments);
     }
 
     getCommentError() {
@@ -43,13 +43,18 @@ class Article extends React.Component {
             showComments: !this.state.showComments
         })
 
-        if (showComments || this.state.comments.length > 0) return;
+        if (showComments) return;
 
-        this.getComment();
+        this.getComments();
     }
 
-    getComment() {
+    getComments() {
         for (var commentId of this.props.article.comments) {
+            if (AppStore.comments.find(el => el.id == commentId)) {
+                console.log('Comment already loaded');
+                continue;
+            }
+
             var params = {
                 method: 'GET',
                 url: 'http://localhost:9090/api/comment/' + commentId
@@ -97,17 +102,21 @@ class Article extends React.Component {
         this.setState({
             comments: []
         });
-        this.getComment();
+        this.getComments();
 
         alert('Your comment was added');
     }
+    
+    refreshComments() {
+        this.forceUpdate();
+    }
 
     componentDidMount () {
-        //AppStore.bind('addCommentStore', this.audience.addCommentStore);
+        AppStore.bind('refreshComments', ::this.refreshComments);
     }
 
     componentWillUnmount () {
-        //AppStore.unbind('addCommentStore', this.audience.addCommentStore);
+        AppStore.unbind('refreshComments', ::this.refreshComments);
     }
 
 
@@ -128,7 +137,7 @@ class Article extends React.Component {
                         {article.comments && `Comments: ${article.comments.length}`}
                     </div>
                     <div className='comments-list' style={{display: this.state.showComments ? 'block' : 'none'}}>
-                        {this.state.comments.length > 0 && this.state.comments.map(
+                        {AppStore.comments && AppStore.comments.length > 0 && AppStore.comments.map(
                             comment => <Comment key={comment.id} comment={comment}/>
                         )}
 
