@@ -7,6 +7,8 @@ import Input from 'src/Form/Input.jsx';
 import InputRow from 'src/Form/InputRow.jsx';
 import ixhr from 'src/i/ixhr';
 
+import './Pagination.css';
+
 /**
  * Articles List
  */

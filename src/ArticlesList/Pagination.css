@@ -1,0 +1,16 @@
+.pagination {
+    margin: 30px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    background-color: #fffcf9;
+    border-radius: 3px;
+    border: 1px solid #d8deff;
+    padding: 3px 20px;
+    text-decoration: none;
+    color: gray;
+    margin: 0 10px;
+}
