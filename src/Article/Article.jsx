@@ -2,6 +2,8 @@ import React from 'react';
 import {withRouter, Link} from 'react-router';
 import Comment from '../Comment/Comment'
 import ixhr from 'src/i/ixhr';
+import AppStore from 'src/App/AppStore.js';
+import {AppActions} from 'src/App/AppActions.js';
 
 /**
  * Article
@@ -18,6 +20,10 @@ class Article extends React.Component {
         showComments: false,
         comments: []
     }
+
+    // audience = {
+    //     addCommentStore: ::this.addCommentStore
+    // }
 
     getCommentSuccess(status, comment) {
         this.setState({
@@ -94,6 +100,14 @@ class Article extends React.Component {
         this.getComment();
 
         alert('Your comment was added');
+    }
+
+    componentDidMount () {
+        //AppStore.bind('addCommentStore', this.audience.addCommentStore);
+    }
+
+    componentWillUnmount () {
+        //AppStore.unbind('addCommentStore', this.audience.addCommentStore);
     }
 
 

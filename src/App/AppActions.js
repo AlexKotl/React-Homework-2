@@ -14,7 +14,7 @@ var AppActions = {
         });
     },
 
-    addComment: function (comment) {
+    addCommentStore: function (comment) {
         iDispatcher.dispatch({
             eventName: 'add-comment',
             data: comment

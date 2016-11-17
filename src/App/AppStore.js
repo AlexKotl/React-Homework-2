@@ -11,8 +11,8 @@ AppActions.iDispatcher.register(function (payload) {
             AppStore.trigger('putArticles');
             break;
         case 'add-comment':
-            AppStore.addComment = payload.data;
-            AppStore.trigger('addComment');
+            AppStore.comment = payload.data;
+            //AppStore.trigger('addComment');
             break;
         case 'change-filter':
             AppStore.currentFilter = payload.data;
