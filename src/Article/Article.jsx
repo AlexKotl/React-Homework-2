@@ -55,6 +55,8 @@ class Article extends React.Component {
                 continue;
             }
 
+            console.log('loading comment', commentId);
+
             var params = {
                 method: 'GET',
                 url: 'http://localhost:9090/api/comment/' + commentId
@@ -99,15 +101,15 @@ class Article extends React.Component {
         this.props.article.comments.push([comment.id]);
 
         // force reload comments
-        this.setState({
-            comments: []
-        });
         this.getComments();
 
         alert('Your comment was added');
+
+        //AppActions.refreshComments();
     }
     
     refreshComments() {
+        console.log('Before update: ',AppStore.comments);
         this.forceUpdate();
     }
 
@@ -138,7 +140,7 @@ class Article extends React.Component {
                     </div>
                     <div className='comments-list' style={{display: this.state.showComments ? 'block' : 'none'}}>
                         {this.props.article.comments.map(
-                            comment_id => <Comment key={comment_id} comment={AppStore.comments.find(el => el.id === comment_id) || {}}/>
+                            comment_id => <Comment key={comment_id} comment={AppStore.comments.find(el => el.id === comment_id) || {text: 'Loading...'}}/>
                         )}
 
                         <div className="comments-form">
