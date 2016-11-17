@@ -137,8 +137,8 @@ class Article extends React.Component {
                         {article.comments && `Comments: ${article.comments.length}`}
                     </div>
                     <div className='comments-list' style={{display: this.state.showComments ? 'block' : 'none'}}>
-                        {AppStore.comments && AppStore.comments.length > 0 && AppStore.comments.map(
-                            comment => <Comment key={comment.id} comment={comment}/>
+                        {this.props.article.comments.map(
+                            comment_id => <Comment key={comment_id} comment={AppStore.comments.find(el => el.id === comment_id) || {}}/>
                         )}
 
                         <div className="comments-form">
