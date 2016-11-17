@@ -11,6 +11,7 @@ render (
         <Route path='/' component={Page}/>
         <Route path='articles' component={ArticlesList}>
             <Route path=':page' component={ArticlesList}/>
+            <IndexRedirect to='/articles/1'/>
         </Route>
         <Route path='article' component={Page}>
             <Route path=':id' component={ArticlePage}/>
