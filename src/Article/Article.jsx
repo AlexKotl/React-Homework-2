@@ -18,17 +18,10 @@ class Article extends React.Component {
 
     state = {
         showComments: false,
-        //comments: []
     }
-
-    // audience = {
-    //     addCommentStore: ::this.addCommentStore
-    // }
 
     getCommentSuccess(status, comment) {
         AppActions.addCommentStore(comment);
-
-        //console.log(AppStore.comments);
     }
 
     getCommentError() {
@@ -98,18 +91,15 @@ class Article extends React.Component {
 
     putCommentSuccess(code, comment) {
         // add new comment ID
-        this.props.article.comments.push([comment.id]);
+        this.props.article.comments.push(comment.id);
 
         // force reload comments
         this.getComments();
 
         alert('Your comment was added');
-
-        //AppActions.refreshComments();
     }
     
     refreshComments() {
-        console.log('Before update: ',AppStore.comments);
         this.forceUpdate();
     }
 
