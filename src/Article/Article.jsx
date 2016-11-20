@@ -18,6 +18,7 @@ class Article extends React.Component {
 
     state = {
         showComments: false,
+        commentsIds: []
     }
 
     getCommentSuccess(status, comment) {
@@ -42,7 +43,7 @@ class Article extends React.Component {
     }
 
     getComments() {
-        for (var commentId of this.props.article.comments) {
+        for (var commentId of this.state.commentsIds) {
             if (AppStore.comments[commentId]) {
                 console.log('Comment already loaded');
                 continue;
@@ -91,7 +92,9 @@ class Article extends React.Component {
 
     putCommentSuccess(code, comment) {
         // add new comment ID
-        this.props.article.comments.push(comment.id);
+        this.setState({
+            commentsIds: this.state.commentsIds.concat([comment.id])
+        });
 
         // force reload comments
         this.getComments();
@@ -105,6 +108,11 @@ class Article extends React.Component {
 
     componentDidMount () {
         AppStore.bind('refreshComments', ::this.refreshComments);
+
+        // copy comments IDs from props to state, to be able to modify it
+        this.setState({
+            commentsIds: this.props.article.comments
+        })
     }
 
     componentWillUnmount () {
@@ -129,7 +137,7 @@ class Article extends React.Component {
                         {article.comments && `Comments: ${article.comments.length}`}
                     </div>
                     <div className='comments-list' style={{display: this.state.showComments ? 'block' : 'none'}}>
-                        {this.props.article.comments.map(
+                        {this.state.commentsIds.map(
                             comment_id => <Comment key={comment_id} comment={AppStore.comments[comment_id] || {text: 'Loading...'}}/>
                         )}
 
