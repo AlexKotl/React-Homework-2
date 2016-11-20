@@ -43,7 +43,7 @@ class Article extends React.Component {
 
     getComments() {
         for (var commentId of this.props.article.comments) {
-            if (AppStore.comments.find(el => el.id == commentId)) {
+            if (AppStore.comments[commentId]) {
                 console.log('Comment already loaded');
                 continue;
             }
@@ -130,7 +130,7 @@ class Article extends React.Component {
                     </div>
                     <div className='comments-list' style={{display: this.state.showComments ? 'block' : 'none'}}>
                         {this.props.article.comments.map(
-                            comment_id => <Comment key={comment_id} comment={AppStore.comments.find(el => el.id === comment_id) || {text: 'Loading...'}}/>
+                            comment_id => <Comment key={comment_id} comment={AppStore.comments[comment_id] || {text: 'Loading...'}}/>
                         )}
 
                         <div className="comments-form">
